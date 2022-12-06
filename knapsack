@@ -1,0 +1,45 @@
+import numpy as np
+
+def knapsackGlouton(p, u, b):
+    x = np.zeros(len(p))
+
+    ratio = u/p
+    while(b > 0):
+        i = np.argmax(ratio)
+        if(b - p[i] >= 0):
+            x[i] = 1
+            ratio[i] = 0
+            b -= p[i]
+        else:
+            break
+
+    return x
+
+#Question 1 :
+#Monter que l'algorithme glouton de George Dantzig ne renvoie pas nécéssairement une solution optimale.
+#On a vu en cours que l'algorithme glouton de George Dantzig ne renvoie pas nécéssairement une solution optimale.
+#En effet, il peut arriver que l'objet de plus grande valeur ne soit pas sélectionné.
+#Par exemple, si on a 3 objets de poids 1, 2 et 3 et d'utilité 1, 2 et 3, l'algorithme glouton de George Dantzig ne sélectionnera que les objets de poids 1 et 2.
+#Or, la solution optimale est de sélectionner les 3 objets.
+
+
+#Question 2 :
+#Poid des objets
+p = np.array([1, 2, 4, 8, 16, 32, 64], dtype=float)
+#Utilité des objets
+u = np.array([20, 15, 10, 5, 10, 15, 20], dtype=float)
+#Poid maximal
+b = 100.
+
+#Sac à dos
+x = knapsackGlouton(p, u, b)
+print(x)
+
+
+#Question 2.1 :
+#Même si on prenait tout les objets, U_opt serait égal à la somme de toute les utilités donc serait égal à U_tot. En général,
+#on prend moins d'objets que le total. U_opt est donc toujours inférieur ou égal à U_tot.
+U_opt = np.sum(x*u)
+U_tot = np.sum(u)
+
+#Question 2.2 : 
